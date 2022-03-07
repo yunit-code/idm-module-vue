@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0",
+    "lasttime": "2021-04-05 00:36:27",
+    "author": "申龙",
+    "className": "basics",
+    "module": [
+        {
+            "classId": "idm.componet.basics.text",
+            "comName": "文本",
+            "className": "IText",
+            "comType": "common",
+            "comLangue": "vue"
+        }
+    ]
+}
