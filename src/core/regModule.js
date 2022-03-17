@@ -7,7 +7,7 @@ import Vue from 'vue'
     };
     config && config.module.forEach(item => {
         defining[item.classId + "@" + config.version] = function (moduleObject) {
-            console.log("加载的组件：", moduleObject, item)
+            // console.log("加载的组件：", moduleObject, item)
             //把组件定义的属性返回给核心框架
             moduleObject.compositeAttr = item.compositeAttr;
             //把组件定义的组件内属性返回给核心框架(如果有的话)
@@ -36,9 +36,9 @@ import Vue from 'vue'
                     })
                 }
             }).$mount("#" + moduleObject.id);
-            console.log("加载的VM对象：", vm)
+            // console.log("加载的VM对象：", vm)
             moduleObject.idmProps = function (props) {
-                console.log("实时更新的数据", props)
+                // console.log("实时更新的数据", props)
                 vm.propData = props;
                 console.log(vm)
                 vm.$children.length>0&&vm.$children[0].$refs[vm.componentName] && vm.$children[0].$refs[vm.componentName].propDataWatchHandle && vm.$children[0].$refs[vm.componentName].propDataWatchHandle(props);
@@ -89,7 +89,7 @@ import Vue from 'vue'
                         return null
                     }
             }
-            console.log("渲染的ID>>>>", moduleObject.id);
+            // console.log("渲染的ID>>>>", moduleObject.id);
         }
     })
     //这里注册了CodeVar变量，就是利用这个变量给这里使用，核心框架调用这里的组件初始化方法，然后这里的方法就给这个变量设置要加载的组件
