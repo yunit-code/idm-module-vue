@@ -40,7 +40,7 @@ import Vue from 'vue'
             moduleObject.idmProps = function (props) {
                 // console.log("实时更新的数据", props)
                 vm.propData = props;
-                console.log(vm)
+                // console.log(vm)
                 vm.$children.length>0&&vm.$children[0].$refs[vm.componentName] && vm.$children[0].$refs[vm.componentName].propDataWatchHandle && vm.$children[0].$refs[vm.componentName].propDataWatchHandle(props);
             }
             /**
