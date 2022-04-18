@@ -1,26 +1,30 @@
 /*样式重写，这里其实就跟ant design vue的base.less基本一致，所以这里重写也覆盖预览页面，这是基础样式，所有组件都以此样式为基础*/
-body{
+body {
     margin: 0;
     padding: 0;
-    color: rgba(0,0,0,.65);
+    color: rgba(0, 0, 0, .65);
     font-size: 14px;
     font-variant: tabular-nums;
     line-height: 1.4;
     background-color: #fff;
     font-feature-settings: "tnum";
 }
+
 * {
     font-family: pingfang SC, helvetica neue, arial, hiragino sans gb, microsoft yahei ui, microsoft yahei, simsun, sans-serif;
 }
+
 input::-ms-clear,
 input::-ms-reveal {
-  display: none;
+    display: none;
 }
+
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 @-ms-viewport {
     width: device-width;
 }
@@ -42,7 +46,999 @@ nav,
 section {
     display: block;
 }
-img{
+
+img {
     vertical-align: middle;
     border-style: none;
+}
+
+/**
+ @Name: layer
+ **/
+/* *html{background-image: url(about:blank); background-attachment: fixed;} */
+html #idmcss-layer {
+    display: none;
+    position: absolute;
+    width: 1992px;
+}
+
+/* common */
+.idm-layer-shade,
+.idm-layer {
+    position: fixed;
+    _position: absolute;
+    pointer-events: auto;
+}
+
+.idm-layer-shade {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.idm-layer {
+    -webkit-overflow-scrolling: touch;
+}
+
+.idm-layer {
+    top: 150px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    -webkit-background-clip: content;
+    border-radius: 2px;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, .3);
+}
+
+.idm-layer-close {
+    position: absolute;
+}
+
+.idm-layer-content {
+    position: relative;
+}
+
+.idm-layer-border {
+    border: 1px solid #B2B2B2;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .2);
+}
+
+.idm-layer-load {
+    background: url(~@/assets/loading-1.gif) #eee center center no-repeat;
+}
+
+.idm-layer-ico {
+    background: url(~@/assets/icon.png) no-repeat;
+}
+
+.idm-layer-dialog .idm-layer-ico,
+.idm-layer-setwin a,
+.idm-layer-btn a {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+}
+
+.idm-layer-move {
+    display: none;
+    position: fixed;
+    *position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: move;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    background-color: #fff;
+    z-index: 2147483647;
+}
+
+.idm-layer-resize {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
+
+/* 动画 */
+.layer-anim {
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
+
+@-webkit-keyframes layer-bounceIn {
+
+    /* 默认 */
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes layer-bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        -ms-transform: scale(.5);
+        transform: scale(.5)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.layer-anim-00 {
+    -webkit-animation-name: layer-bounceIn;
+    animation-name: layer-bounceIn
+}
+
+@-webkit-keyframes layer-zoomInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.1) translateY(-2000px);
+        transform: scale(.1) translateY(-2000px);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(.475) translateY(60px);
+        transform: scale(.475) translateY(60px);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+@keyframes layer-zoomInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.1) translateY(-2000px);
+        -ms-transform: scale(.1) translateY(-2000px);
+        transform: scale(.1) translateY(-2000px);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(.475) translateY(60px);
+        -ms-transform: scale(.475) translateY(60px);
+        transform: scale(.475) translateY(60px);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+.layer-anim-01 {
+    -webkit-animation-name: layer-zoomInDown;
+    animation-name: layer-zoomInDown
+}
+
+@-webkit-keyframes layer-fadeInUpBig {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(2000px);
+        transform: translateY(2000px)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+@keyframes layer-fadeInUpBig {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(2000px);
+        -ms-transform: translateY(2000px);
+        transform: translateY(2000px)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.layer-anim-02 {
+    -webkit-animation-name: layer-fadeInUpBig;
+    animation-name: layer-fadeInUpBig
+}
+
+@-webkit-keyframes layer-zoomInLeft {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.1) translateX(-2000px);
+        transform: scale(.1) translateX(-2000px);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(.475) translateX(48px);
+        transform: scale(.475) translateX(48px);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+@keyframes layer-zoomInLeft {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.1) translateX(-2000px);
+        -ms-transform: scale(.1) translateX(-2000px);
+        transform: scale(.1) translateX(-2000px);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(.475) translateX(48px);
+        -ms-transform: scale(.475) translateX(48px);
+        transform: scale(.475) translateX(48px);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+.layer-anim-03 {
+    -webkit-animation-name: layer-zoomInLeft;
+    animation-name: layer-zoomInLeft
+}
+
+@-webkit-keyframes layer-rollIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%) rotate(-120deg);
+        transform: translateX(-100%) rotate(-120deg)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateX(0px) rotate(0deg);
+        transform: translateX(0px) rotate(0deg)
+    }
+}
+
+@keyframes layer-rollIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%) rotate(-120deg);
+        -ms-transform: translateX(-100%) rotate(-120deg);
+        transform: translateX(-100%) rotate(-120deg)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateX(0px) rotate(0deg);
+        -ms-transform: translateX(0px) rotate(0deg);
+        transform: translateX(0px) rotate(0deg)
+    }
+}
+
+.layer-anim-04 {
+    -webkit-animation-name: layer-rollIn;
+    animation-name: layer-rollIn
+}
+
+@keyframes layer-fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+.layer-anim-05 {
+    -webkit-animation-name: layer-fadeIn;
+    animation-name: layer-fadeIn
+}
+
+@-webkit-keyframes layer-shake {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px)
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transform: translateX(10px);
+        transform: translateX(10px)
+    }
+}
+
+@keyframes layer-shake {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0)
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: translateX(-10px);
+        -ms-transform: translateX(-10px);
+        transform: translateX(-10px)
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transform: translateX(10px);
+        -ms-transform: translateX(10px);
+        transform: translateX(10px)
+    }
+}
+
+.layer-anim-06 {
+    -webkit-animation-name: layer-shake;
+    animation-name: layer-shake
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+/* 标题栏 */
+.idm-layer-title {
+    padding: 0 80px 0 20px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #F0F0F0;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 2px 2px 0 0;
+}
+
+.idm-layer-setwin {
+    position: absolute;
+    right: 15px;
+    *right: 0;
+    top: 17px;
+    font-size: 0;
+    line-height: initial;
+}
+
+.idm-layer-setwin a {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    font-size: 12px;
+    _overflow: hidden;
+}
+
+.idm-layer-setwin .idm-layer-min cite {
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    left: 0;
+    top: 50%;
+    margin-top: -1px;
+    background-color: #2E2D3C;
+    cursor: pointer;
+    _overflow: hidden;
+}
+
+.idm-layer-setwin .idm-layer-min:hover cite {
+    background-color: #2D93CA;
+}
+
+.idm-layer-setwin .idm-layer-max {
+    background-position: -32px -40px;
+}
+
+.idm-layer-setwin .idm-layer-max:hover {
+    background-position: -16px -40px;
+}
+
+.idm-layer-setwin .idm-layer-maxmin {
+    background-position: -65px -40px;
+}
+
+.idm-layer-setwin .idm-layer-maxmin:hover {
+    background-position: -49px -40px;
+}
+
+.idm-layer-setwin .idm-layer-close1 {
+    background-position: 1px -40px;
+    cursor: pointer;
+}
+
+.idm-layer-setwin .idm-layer-close1:hover {
+    opacity: 0.7;
+}
+
+.idm-layer-setwin .idm-layer-close2 {
+    position: absolute;
+    right: -28px;
+    top: -28px;
+    width: 30px;
+    height: 30px;
+    margin-left: 0;
+    background-position: -149px -31px;
+    *right: -18px;
+    _display: none;
+}
+
+.idm-layer-setwin .idm-layer-close2:hover {
+    background-position: -180px -31px;
+}
+
+/* 按钮栏 */
+.idm-layer-btn {
+    text-align: right;
+    padding: 0 15px 12px;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.idm-layer-btn a {
+    height: 28px;
+    line-height: 28px;
+    margin: 5px 5px 0;
+    padding: 0 15px;
+    border: 1px solid #dedede;
+    background-color: #fff;
+    color: #333;
+    border-radius: 2px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.idm-layer-btn a:hover {
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.idm-layer-btn a:active {
+    opacity: 0.8;
+}
+
+.idm-layer-btn .idm-layer-btn0 {
+    border-color: #1E9FFF;
+    background-color: #1E9FFF;
+    color: #fff;
+}
+
+.idm-layer-btn-l {
+    text-align: left;
+}
+
+.idm-layer-btn-c {
+    text-align: center;
+}
+
+/* 定制化 */
+.idm-layer-dialog {
+    min-width: 300px;
+}
+
+.idm-layer-dialog .idm-layer-content {
+    position: relative;
+    padding: 20px;
+    line-height: 24px;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.idm-layer-dialog .idm-layer-content .idm-layer-ico {
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    _left: -40px;
+    width: 30px;
+    height: 30px;
+}
+
+.idm-layer-ico1 {
+    background-position: -30px 0
+}
+
+.idm-layer-ico2 {
+    background-position: -60px 0;
+}
+
+.idm-layer-ico3 {
+    background-position: -90px 0;
+}
+
+.idm-layer-ico4 {
+    background-position: -120px 0;
+}
+
+.idm-layer-ico5 {
+    background-position: -150px 0;
+}
+
+.idm-layer-ico6 {
+    background-position: -180px 0;
+}
+
+.idm-layer-rim {
+    border: 6px solid #8D8D8D;
+    border: 6px solid rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.idm-layer-msg {
+    min-width: 180px;
+    border: 1px solid #D3D4D3;
+    box-shadow: none;
+}
+
+.idm-layer-hui {
+    min-width: 100px;
+    background-color: #000;
+    filter: alpha(opacity=60);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+}
+
+.idm-layer-hui .idm-layer-content {
+    padding: 12px 25px;
+    text-align: center;
+}
+
+.idm-layer-dialog .idm-layer-padding {
+    padding: 20px 20px 20px 55px;
+    text-align: left;
+}
+
+.idm-layer-page .idm-layer-content {
+    position: relative;
+    overflow: auto;
+}
+
+.idm-layer-page .idm-layer-btn,
+.idm-layer-iframe .idm-layer-btn {
+    padding-top: 10px;
+}
+
+.idm-layer-nobg {
+    background: none;
+}
+
+.idm-layer-iframe iframe {
+    display: block;
+    width: 100%;
+}
+
+.idm-layer-loading {
+    border-radius: 100%;
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+.idm-layer-loading .idm-layer-content {
+    width: 60px;
+    height: 24px;
+    background: url(~@/assets/loading-0.gif) no-repeat;
+}
+
+.idm-layer-loading .idm-layer-loading1 {
+    width: 37px;
+    height: 37px;
+    background: url(~@/assets/loading-1.gif) no-repeat;
+}
+
+.idm-layer-loading .idm-layer-loading2,
+.idm-layer-ico16 {
+    width: 32px;
+    height: 32px;
+    background: url(~@/assets/loading-2.gif) no-repeat;
+}
+
+.idm-layer-tips {
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+.idm-layer-tips .idm-layer-content {
+    position: relative;
+    line-height: 22px;
+    min-width: 12px;
+    padding: 8px 15px;
+    font-size: 12px;
+    _float: left;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .2);
+    background-color: #000;
+    color: #fff;
+}
+
+.idm-layer-tips .idm-layer-close {
+    right: -2px;
+    top: -1px;
+}
+
+.idm-layer-tips i.idm-layer-TipsG {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-color: transparent;
+    border-style: dashed;
+    *overflow: hidden;
+}
+
+.idm-layer-tips i.idm-layer-TipsT,
+.idm-layer-tips i.idm-layer-TipsB {
+    left: 5px;
+    border-right-style: solid;
+    border-right-color: #000;
+}
+
+.idm-layer-tips i.idm-layer-TipsT {
+    bottom: -8px;
+}
+
+.idm-layer-tips i.idm-layer-TipsB {
+    top: -8px;
+}
+
+.idm-layer-tips i.idm-layer-TipsR,
+.idm-layer-tips i.idm-layer-TipsL {
+    top: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #000;
+}
+
+.idm-layer-tips i.idm-layer-TipsR {
+    left: -8px;
+}
+
+.idm-layer-tips i.idm-layer-TipsL {
+    right: -8px;
+}
+
+/* skin */
+.idm-layer-lan[type="dialog"] {
+    min-width: 280px;
+}
+
+.idm-layer-lan .idm-layer-title {
+    background: #4476A7;
+    color: #fff;
+    border: none;
+}
+
+.idm-layer-lan .idm-layer-btn {
+    padding: 5px 10px 10px;
+    text-align: right;
+    border-top: 1px solid #E9E7E7
+}
+
+.idm-layer-lan .idm-layer-btn a {
+    background: #fff;
+    border-color: #E9E7E7;
+    color: #333;
+}
+
+.idm-layer-lan .idm-layer-btn .idm-layer-btn1 {
+    background: #C9C5C5;
+}
+
+.idm-layer-molv .idm-layer-title {
+    background: #009f95;
+    color: #fff;
+    border: none;
+}
+
+.idm-layer-molv .idm-layer-btn a {
+    background: #009f95;
+    border-color: #009f95;
+}
+
+.idm-layer-molv .idm-layer-btn .idm-layer-btn1 {
+    background: #92B8B1;
+}
+
+
+/**
+   
+   @Name: layer拓展样式
+   
+   */
+
+.idm-layer-iconext {
+    background: url(~@/assets/icon-ext.png) no-repeat;
+}
+
+/* prompt模式 */
+.idm-layer-prompt .idm-layer-input {
+    display: block;
+    width: 260px;
+    height: 36px;
+    margin: 0 auto;
+    line-height: 30px;
+    padding-left: 10px;
+    border: 1px solid #e6e6e6;
+    color: #333;
+}
+
+.idm-layer-prompt textarea.idm-layer-input {
+    width: 300px;
+    height: 100px;
+    line-height: 20px;
+    padding: 6px 10px;
+}
+
+.idm-layer-prompt .idm-layer-content {
+    padding: 20px;
+}
+
+.idm-layer-prompt .idm-layer-btn {
+    padding-top: 0;
+}
+
+/* tab模式 */
+.idm-layer-tab {
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, .4);
+}
+
+.idm-layer-tab .idm-layer-title {
+    padding-left: 0;
+    overflow: visible;
+}
+
+.idm-layer-tab .idm-layer-title span {
+    position: relative;
+    float: left;
+    min-width: 80px;
+    max-width: 300px;
+    padding: 0 20px;
+    text-align: center;
+    cursor: default;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.idm-layer-tab .idm-layer-title span.idm-this {
+    height: 51px;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.idm-layer-tab .idm-layer-title span:first-child {
+    border-left: none;
+}
+
+.idm-layer-tabmain {
+    line-height: 24px;
+    clear: both;
+}
+
+.idm-layer-tabmain .idm-layer-tabli {
+    display: none;
+}
+
+.idm-layer-tabmain .idm-layer-tabli.idm-this {
+    display: block;
+}
+
+/* photo模式 */
+.idm-layer-photos {
+    background: none;
+    box-shadow: none;
+}
+
+.idm-layer-photos .idm-layer-content {
+    overflow: hidden;
+    text-align: center;
+}
+
+.idm-layer-photos .idm-layer-phimg img {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+}
+
+.idm-layer-imgprev,
+.idm-layer-imgnext {
+    position: fixed;
+    top: 50%;
+    width: 27px;
+    height: 44px;
+    margin-top: -22px;
+    outline: none;
+}
+
+.idm-layer-imgprev {
+    left: 30px;
+    background-position: -5px -5px;
+    _background-position: -70px -5px;
+}
+
+.idm-layer-imgprev:hover {
+    background-position: -33px -5px;
+    _background-position: -120px -5px;
+}
+
+.idm-layer-imgnext {
+    right: 30px;
+    _right: 8px;
+    background-position: -5px -50px;
+    _background-position: -70px -50px;
+}
+
+.idm-layer-imgnext:hover {
+    background-position: -33px -50px;
+    _background-position: -120px -50px;
+}
+
+.idm-layer-imgbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    filter: Alpha(opacity=60);
+    background-color: rgba(2, 0, 0, .35);
+    color: #fff;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+}
+
+.idm-layer-imgtit {
+    /*position:absolute; left:20px;*/
+}
+
+.idm-layer-imgtit * {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.idm-layer-imgtit a {
+    max-width: 65%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.idm-layer-imgtit a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.idm-layer-imgtit em {
+    padding-left: 10px;
+    font-style: normal;
+}
+
+/* 关闭动画 */
+@-webkit-keyframes layer-bounceOut {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(.7);
+        transform: scale(.7)
+    }
+
+    30% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes layer-bounceOut {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(.7);
+        -ms-transform: scale(.7);
+        transform: scale(.7);
+    }
+
+    30% {
+        -webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    0% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.layer-anim-close {
+    -webkit-animation-name: layer-bounceOut;
+    animation-name: layer-bounceOut;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+}
+
+@media screen and (max-width: 1100px) {
+    .idm-layer-iframe {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }

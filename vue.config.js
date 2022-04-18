@@ -62,6 +62,7 @@ module.exports = {
         title: '',
         includeScripts: [
            "./lib/vue.min.js",
+           "./lib/jquery.min.js",
             "./lib/axios.min.js",
             "./lib/qs.js",
             "./lib/lodash.min.js",
