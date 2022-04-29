@@ -82,6 +82,9 @@ export {
 export {
     default as CaretDownOutline
 } from '@ant-design/icons/lib/outline/CaretDownOutline';
+export {
+    default as CheckCircleFill
+} from '@ant-design/icons/lib/fill/CheckCircleFill';
 /**
  * ======================拖拽设计器中必须的图标，如果删除可能会造成引用了以上图标将会不显示 end===================================
  */
