@@ -27,7 +27,9 @@ export default {
   data(){
     return {
       moduleObject:{},
-      propData:this.$root.propData.compositeAttr||{}
+      propData:this.$root.propData.compositeAttr||{
+        fontContent:"Hello Word"
+      }
     }
   },
   props: {
