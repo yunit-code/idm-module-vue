@@ -40,7 +40,8 @@ export default {
   mounted() {
     //赋值给window提供跨页面调用
     this.$nextTick(function(params) {
-      window[this.moduleObject.packageid] = this;
+      //单独组件不能使用这种方式
+      // window[this.moduleObject.packageid] = this;
     });
   },
   destroyed() {},
