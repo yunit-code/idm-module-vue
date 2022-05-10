@@ -124,7 +124,8 @@ module.exports = {
       output: {
         // 输出重构  打包编译后的 文件名称
         filename: `${assetsDir}/js/[name].js`,
-        chunkFilename: `${assetsDir}/js/[name].js`
+        chunkFilename: `${assetsDir}/js/[name].js`,
+        jsonpFunction:JSON.stringify("webpackJsonp_"+getGUID()+"_"+new Date().getTime())
       },
       resolve:{
         extensions: ['.js', '.vue', '.json'],
