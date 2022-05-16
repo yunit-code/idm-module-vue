@@ -1,4 +1,4 @@
-# layout
+# idm-module-vue
 
 ## Project setup
 ```
