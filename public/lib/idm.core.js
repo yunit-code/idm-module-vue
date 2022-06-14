@@ -399,6 +399,10 @@
                 } else if (url.startsWiths("@")) {
                     isModuleDir = true;
                     url = url.substr(1);
+                } else if (base64Reg.test(url)) {
+                    return url
+                } else if (url.startsWiths(rootPath || IDM.setting.webRoot.default)){
+                    return url
                 }
                 if (url.startsWiths("/")) {
                     url = url.substr(1);
