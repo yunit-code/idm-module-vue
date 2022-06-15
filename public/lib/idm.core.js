@@ -367,6 +367,52 @@
                         s: second
                     })[matches];
                 });
+            },
+            /**
+             * 获取cookie
+             * @param {*} t 
+             * @returns 
+             */
+            getCookie:function(t){
+                for(var i=document.cookie.split("; "),e=0;e<i.length;e++){
+                    var s=i[e].split("=");
+                    if(t==s[0])
+                    return s[1]
+                }
+                return null
+            },
+            /**
+             * hex8转换为rgba的字符串格式
+             * @returns 
+             */
+            hex8ToRgbaString:function(hex){
+                if (hex.length < 9 || hex[0] != '#') return hex
+                let r = parseInt(hex.slice(1, 3), 16)
+                let g = parseInt(hex.slice(3, 5), 16)
+                let b = parseInt(hex.slice(5, 7), 16)
+                let a = parseInt(hex.slice(7, 9), 16)/255
+                let res = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'
+                return res
+            },
+            /**
+             * hex8转换为rgba对象格式
+             * {
+                "r": 218,
+                "g": 12,
+                "b": 12,
+                "a": 1
+            }
+             * @returns 
+             */
+            hex8ToRgbaObject:function(hex){
+                if (hex.length < 9 || hex[0] != '#') return hex
+                let r = parseInt(hex.slice(1, 3), 16)
+                let g = parseInt(hex.slice(3, 5), 16)
+                let b = parseInt(hex.slice(5, 7), 16)
+                let a = parseInt(hex.slice(7, 9), 16)/255
+                return {
+                    r,g,b,a
+                }
             }
         }
         /**
