@@ -48,11 +48,17 @@ process.stdin.on('data', async (chunk) => {
     // configJson文件
     const configJson = resolve('../public/static/config.json')
     // 判断组件文件夹是否存在
-    const hasComponentExists = fs.existsSync(vueFile)
-    if (hasComponentExists) {
-        errorLog(`${className}组件已存在，请重新输入`)
+    let fileExists = fs.existsSync(vueFile)
+    if (fileExists) {
+        errorLog(`${className}vue组件已存在，请重新输入`)
         return
     }
+    fileExists = fs.existsSync(jsonFile)
+    if (fileExists) {
+        errorLog(`${className}json已存在，请重新输入`)
+        return
+    }
+
     try {
         // 获取组件名
         log(`正在生成 vue 文件 ${vueFile}`)
@@ -77,16 +83,3 @@ process.stdin.on('end', () => {
     log('exit')
     process.exit()
 })
-
-// 递归创建目录
-function mkdirs(directory, callback) {
-    var exists = fs.existsSync(directory)
-    if (exists) {
-        callback()
-    } else {
-        mkdirs(path.dirname(directory), function () {
-            fs.mkdirSync(directory)
-            callback()
-        })
-    }
-}
