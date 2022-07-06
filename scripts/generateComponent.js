@@ -7,6 +7,7 @@ const successLog = (message) => console.log(chalk.blue(`${message}`))
 const errorLog = (error) => console.log(chalk.red(`${error}`))
 const jsonObj = require('../public/static/config.json')
 const dayjs = require('dayjs')
+console.log(chalk)
 // 导入模板
 const { vueTemplate, jsonTemplate, configItem } = require('./template')
 // 生成文件
@@ -27,18 +28,18 @@ const generateFile = (path, data, isExists = true) => {
     })
 }
 
-log('请输入要生成IDM组件className/comName、会生成在 components目录下')
+log(`Please enter the IDM component's className/comName to be generated, like ITest/文本`)
 process.stdin.on('data', async (chunk) => {
     const inputStr = String(chunk).trim().toString()
     const dataArray = inputStr && inputStr.split('/')
     if(dataArray.length !== 2) {
-        log('请输入正确的数据格式')
+        log('Please enter the correct data format')
         return
     }
     // 组件类名
     const className = inputStr.split('/')[0]
     // 组件中文名
-    const chineseName = inputStr.split('/')[1]
+    const comName = inputStr.split('/')[1]
     // 组件路径
     const componentPath = resolve('../src/components')
     // vue文件
@@ -50,29 +51,36 @@ process.stdin.on('data', async (chunk) => {
     // 判断组件文件夹是否存在
     let fileExists = fs.existsSync(vueFile)
     if (fileExists) {
-        errorLog(`${className}vue组件已存在，请重新输入`)
+        errorLog(`${className}vue component already exists, please re-enter`)
         return
     }
+    // 配置json是否存在
     fileExists = fs.existsSync(jsonFile)
     if (fileExists) {
-        errorLog(`${className}json已存在，请重新输入`)
+        errorLog(`${className}json already exists, please re-enter`)
+        return
+    }
+    // static/config.json内是否已经配置
+    const configIndex = jsonObj.module.findIndex(el => el.className === className || el.comName === comName)
+    if(configIndex > -1) {
+        errorLog(`static/config.json already exists, please re-enter`)
         return
     }
 
     try {
         // 获取组件名
-        log(`正在生成 vue 文件 ${vueFile}`)
+        log(`Generating vue file ${vueFile}`)
         await generateFile(vueFile, vueTemplate(className))
-        log(`正在生成 json 文件 ${jsonFile}`)
-        await generateFile(jsonFile, jsonTemplate({comName: chineseName, className }))
+        log(`Generating json file ${jsonFile}`)
+        await generateFile(jsonFile, jsonTemplate({comName, className }))
         const packageName = jsonObj.className
-        const configItemObj = configItem({comName: chineseName, className, packageName})
+        const configItemObj = configItem({comName, className, packageName})
         jsonObj.module.push(configItemObj)
         jsonObj.lasttime = dayjs().format('YYYY-MM-DD HH:mm:ss')
         const jsonConfigStr = JSON.stringify(jsonObj)
-        log(`正在添加 ${configJson}`)
+        log(`Adding ${configJson}`)
         await generateFile(configJson, jsonConfigStr ,false)
-        successLog('生成成功')
+        successLog(`${inputStr} component generated success`)
 
     } catch (e) {
         errorLog(e.message)
