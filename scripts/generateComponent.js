@@ -7,7 +7,6 @@ const successLog = (message) => console.log(chalk.blue(`${message}`))
 const errorLog = (error) => console.log(chalk.red(`${error}`))
 const jsonObj = require('../public/static/config.json')
 const dayjs = require('dayjs')
-console.log(chalk)
 // 导入模板
 const { vueTemplate, jsonTemplate, configItem } = require('./template')
 // 生成文件
