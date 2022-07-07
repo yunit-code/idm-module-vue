@@ -127,7 +127,7 @@ export default {
     },
     jsonTemplate: (componentInfo) => {
         return `{
-    "classId": "idm.componet.basics.text",
+    "classId": "idm.componet.${componentInfo.packageName}.${componentInfo.className.toLowerCase()}",
     "comName": "${componentInfo.comName}",
     "className": "${componentInfo.className}",
     "comType": "common",
