@@ -67,12 +67,13 @@ process.stdin.on('data', async (chunk) => {
     }
 
     try {
+        
+        const packageName = jsonObj.className
         // 获取组件名
         log(`Generating vue file ${vueFile}`)
         await generateFile(vueFile, vueTemplate(className))
         log(`Generating json file ${jsonFile}`)
-        await generateFile(jsonFile, jsonTemplate({comName, className }))
-        const packageName = jsonObj.className
+        await generateFile(jsonFile, jsonTemplate({comName, className, packageName }))
         const configItemObj = configItem({comName, className, packageName})
         jsonObj.module.push(configItemObj)
         jsonObj.lasttime = dayjs().format('YYYY-MM-DD HH:mm:ss')
