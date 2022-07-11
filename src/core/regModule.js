@@ -35,7 +35,7 @@ import Vue from 'vue'
                         moduleObject.mountComplete && moduleObject.mountComplete(moduleObject);
                     })
                 }
-            }).$mount("#" + moduleObject.id);
+            }).$mount("#" + moduleObject.id+(moduleObject.routerId?moduleObject.routerId:""));
             // console.log("加载的VM对象：", vm)
             moduleObject.idmProps = function (props) {
                 // console.log("实时更新的数据", props)
