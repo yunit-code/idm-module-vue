@@ -31,18 +31,16 @@ log(`Please enter the IDM component's className/comName to be generated, like IT
 process.stdin.on('data', async (chunk) => {
     const inputStr = String(chunk).trim().toString()
     const dataArray = inputStr && inputStr.split('/')
-    if(dataArray.length !== 2) {
+    if(!Array.isArray(dataArray) || dataArray.length !== 2) {
         log('Please enter the correct data format')
         return
     }
     // 组件类名
-    const className = inputStr.split('/')[0]
+    const className = dataArray[0]
     // 组件中文名
-    const comName = inputStr.split('/')[1]
-    // 组件路径
-    const componentPath = resolve('../src/components')
+    const comName = dataArray[1]
     // vue文件
-    const vueFile = resolve(componentPath, `${className}.vue`)
+    const vueFile = resolve('../src/components', `${className}.vue`)
     // json文件
     const jsonFile = resolve('../public/static/attributes', `${className}.json`)
     // configJson文件
@@ -50,24 +48,23 @@ process.stdin.on('data', async (chunk) => {
     // 判断组件文件夹是否存在
     let fileExists = fs.existsSync(vueFile)
     if (fileExists) {
-        errorLog(`${className}vue component already exists, please re-enter`)
+        errorLog(`${className} vue component already exists, please re-enter`)
         return
     }
     // 配置json是否存在
     fileExists = fs.existsSync(jsonFile)
     if (fileExists) {
-        errorLog(`${className}json already exists, please re-enter`)
+        errorLog(`${className} json already exists, please re-enter`)
         return
     }
     // static/config.json内是否已经配置
     const configIndex = jsonObj.module.findIndex(el => el.className === className || el.comName === comName)
     if(configIndex > -1) {
-        errorLog(`static/config.json already exists, please re-enter`)
+        errorLog(`static/config.json has configured, please re-enter`)
         return
     }
 
     try {
-        
         const packageName = jsonObj.className
         // 获取组件名
         log(`Generating vue file ${vueFile}`)

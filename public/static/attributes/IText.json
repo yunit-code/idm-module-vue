@@ -1,5 +1,5 @@
 {
-    "classId": "idm.componet.basics.text",
+    "classId": "idm.component.basics.text",
     "comName": "文本",
     "className": "IText",
     "comType": "common",
