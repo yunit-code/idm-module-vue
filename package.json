@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "generate": "node ./scripts/generateComponent.js",
+    "gen": "idm-generate vue",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@idm-modules/cli-generate": "^1.0.33",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",

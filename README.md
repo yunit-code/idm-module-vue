@@ -20,5 +20,10 @@ npm run build
 npm run lint
 ```
 
+### Quick generate components
+```
+npm run gen
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
