@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Main from './Main.vue'
-import './core/regModule';
+import { VueRegister } from '@idm-modules/core/regModule/vue';
 import config from '../public/static/config.json';
 //引入图标
 import '@/icons' // icon
-//按需的ant组件注册，没有用到antd最好删除
-import "@/plugins/antd"
 
+new VueRegister()
 const requireComponent = require.context(
   // 其组件目录的相对路径
   './components',
