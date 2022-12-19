@@ -436,6 +436,7 @@
                 let isHtmlDir = false;
                 let isAssetsDir = false;
                 let isModuleDir = false;
+                const base64Reg = RegExp(/^data:(image|audio)\/.*;base64,/)
                 if (url.startsWiths("~")) {
                     isHtmlDir = true;
                     url = url.substr(1);
