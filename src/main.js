@@ -5,7 +5,7 @@ import config from '../public/static/config.json';
 //引入图标
 import '@/icons' // icon
 
-new VueRegister()
+new VueRegister(config)
 const requireComponent = require.context(
   // 其组件目录的相对路径
   './components',
