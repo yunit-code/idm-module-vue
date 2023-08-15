@@ -48,6 +48,7 @@ const externals = {
 }
 module.exports = {
     publicPath:"./",
+    productionSourceMap: false,
     assetsDir:assetsDir,
     transpileDependencies: [
         /[/\\]node_modules[/\\](.+?)?sockjs-client(.*)/,
@@ -143,7 +144,7 @@ module.exports = {
         // 是否使用css分离插件 ExtractTextPlugin
         extract: true,
         // 开启 CSS source maps?
-        sourceMap: true,
+        // sourceMap: true,
         // css预设器配置项
         // 启用 CSS modules for all css / pre-processor files.
         requireModuleExtension: true,
