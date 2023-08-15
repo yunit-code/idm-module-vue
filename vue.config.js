@@ -1,6 +1,6 @@
 
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -9,6 +9,7 @@ let assetsDir = "./static";
 let getAssetsDir = function(filename) {
   return path.posix.join(assetsDir, filename);
 };
+const isDev = process.env.NODE_ENV === 'development'
 let uuidCharts = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
 let getGUID = function(len, radix) {
   var chars = uuidCharts,
@@ -120,11 +121,11 @@ module.exports = {
     },
     configureWebpack: {
       plugins: [
-        new MiniCssExtractPlugin({
-          // 修改打包后css文件名
-          filename: `${assetsDir}/css/[name].css`,
-          chunkFilename: `${assetsDir}/css/[name].css`
-        })
+        // new MiniCssExtractPlugin({
+        //   // 修改打包后css文件名
+        //   filename: `${assetsDir}/css/[name].css`,
+        //   chunkFilename: `${assetsDir}/css/[name].css`
+        // })
       ],
       output: {
         // 输出重构  打包编译后的 文件名称
@@ -142,9 +143,12 @@ module.exports = {
     },
     css: {
         // 是否使用css分离插件 ExtractTextPlugin
-        extract: true,
+        extract: isDev ? false : {
+          filename: `${assetsDir}/css/[name].css`,
+          chunkFilename: `${assetsDir}/css/[name].css`
+        },
         // 开启 CSS source maps?
-        // sourceMap: true,
+        sourceMap: isDev,
         // css预设器配置项
         // 启用 CSS modules for all css / pre-processor files.
         requireModuleExtension: true,
