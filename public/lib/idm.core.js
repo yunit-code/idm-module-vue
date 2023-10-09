@@ -61,6 +61,141 @@
          */
         var util = {
             /**
+             * 组件内手动渲染属性样式到页面的head中
+             * @param {*} attrArray 样式属性对象，必须是数组格式
+             * @param {*} moduleObject 组件对象，不能为空
+             * @param {*} otherObject 能在使用条件或者样式中使用的表达式对象
+             * @returns 返回渲染的数量
+             */
+            renderAttrStyleToPage: function (attrArray, moduleObject, otherObject) {
+                if (!moduleObject || IDM.type(moduleObject) != "object" || (IDM.type(moduleObject) == "object" && Object.keys(moduleObject).length == 0)) {
+                    return "组件对象参数不能为空";
+                }
+                if (IDM.type(attrArray) === "array") {
+                    var paramCom = {
+                        moduleObject,
+                    };
+                    if (otherObject && IDM.type(otherObject) == "object") {
+                        Object.assign(paramCom, otherObject);
+                    }
+                    var renderCount = 0;
+                    for (var index = 0; index < attrArray.length; index++) {
+                        const item = attrArray[index];
+                        if (
+                            item.styleUUID &&
+                            item.styleType &&
+                            item.cssCode &&
+                            // item.idmCoreLoad !== true &&
+                            IDM.type(item.cssCode) === "string"
+                        ) {
+                            //进行表达式转换
+                            if (
+                                !item.styleCondition ||
+                                (item.styleCondition && IDM.getExpressData(item.styleCondition, paramCom))
+                            ) {
+                                renderCount++;
+                                var newUUID = item.styleUUID+"_"+item.styleRenderUUID?IDM.getExpressData(item.styleRenderUUID, paramCom, "", false):IDM.uuid();
+                                IDM.setStyleHtmlToPageHead(
+                                    newUUID,
+                                    IDM.getExpressData(item.cssCode, paramCom, "", false)
+                                );
+                            }
+                        }
+                    }
+                    return renderCount;
+                } else {
+                    return false;
+                }
+            },
+            /**
+             * 获取属性的最终结果值，优先去获取指定属性的变量绑定的执行结果，如果表达式没有则返回属性设置的结果
+             * @param {*} _this 当前组件的this对象
+             * @param {*} propData 当前组件的所有属性数据
+             * @param {*} attrName 要获取的属性名称
+             * @param {*} moduleObject 当前组件的对象
+             * @param {*} extendPrefixName 当前属性的扩展前缀名称
+             * @param {*} extendData 表达式绑定中提供的扩展数据对象
+             */
+            getAttrVarBindResultData:function(_this,propData,attrName,moduleObject,extendPrefixName,extendData){
+                var afterStr = "_idmVarBind";
+                if (propData.hasOwnProperty.call(propData, attrName+afterStr)) {
+                    var element = propData[attrName+afterStr];
+                    if (IDM.isUnDef(element)||(element&&!element.content)) {
+                        //为空直接返回属性
+                        return propData[attrName]
+                    }
+                    //不为空
+                    try {
+                        //IDM.express.eval("function(ctx){var aaa =abcdd(123)+ctx.ddd;return aaa}(@[abd])",{abd:{ddd:"abcdef"}})
+                        if(element.js){
+                            //是js函数来执行
+                            return IDM.express.eval("function(_this,moduleObject,"+extendPrefixName+"){"+element.content+"}(@[_this],@[moduleObject],@["+extendPrefixName+"])",{
+                                _this,
+                                moduleObject,
+                                [extendPrefixName]:extendData
+                            })
+                        }
+                        //表达式执行
+                        return IDM.getExpressData(element.content,{
+                            _this,
+                            moduleObject,
+                            [extendPrefixName]:extendData
+                        })
+                    } catch (error) {
+                        return propData[attrName]
+                    }
+                }
+                return propData[attrName]
+            },
+            /**
+             * 通用的获取表达式匹配后的结果
+             * 例1：IDM.getExpressData("data.dataFieldName",{data:{dataFieldName:"1234"}})  // => 1234
+             * 例2：IDM.getExpressData("_idm_[0].data.dataFieldName",[{data:{dataFieldName:"1234"}}])  // => 1234
+             * 例3：IDM.getExpressData("_idm_","这里是字符串1234")  // => 这里是字符串1234
+             * 例4：IDM.getExpressData("mydata[0].data.dataFieldName",[{data:{dataFieldName:"1234"}}],"mydata")  // => 1234
+             * @param {*} expressStr 表达式字符串，不包含@[]
+             * @param {*} objectData 表达式所使用的对象数据，如果为object类型则可直接使用，如果为数组或者其他类型则会默认给添加到 _idm_ 字段中，因此表达式需要带上 _idm_.dataFieldName 这样
+             * @param {*} defaultPrefix 为数组或者其他类型的默认字段名称，默认为 _idm_ ，如果需要定义其他可以传此参数
+             * @param {*} addAt 是否自动追加艾特@符号 '@[]',默认为追加，为false则不追加
+             * @returns 
+             */
+            getExpressData: function (expressStr, objectData, defaultPrefix,addAt) {
+                //给defaultValue设置dataFiled的值
+                var resultData;
+                if (expressStr) {
+                    var dataObject = { IDM: window.IDM, window };
+                    if (IDM.type(objectData) == "object") {
+                        //直接合并
+                        Object.assign(dataObject, objectData);
+                    } else {
+                        dataObject[defaultPrefix || "_idm_"] = objectData;
+                    }
+                    resultData = window.IDM.express.replace(
+                        addAt===false?expressStr:"@[" + expressStr + "]",
+                        dataObject
+                    );
+                }
+                return resultData;
+            },
+            /**
+             * 将样式html字符串添加到head标签
+             * @param {*} selector
+             * @param {*} styleHtml
+             */
+            setStyleHtmlToPageHead: function(selector, styleHtml){
+                var oldStyleElement = this.findStyleElement(selector)
+              if(oldStyleElement){
+                if(oldStyleElement.innerHTML !== styleHtml){
+                    oldStyleElement.innerHTML = styleHtml
+                }
+                return
+              }
+              var newStyleElement=document.createElement("style");
+              newStyleElement.setAttribute("from",selector);
+              newStyleElement.innerHTML=styleHtml
+              document.getElementsByTagName('head')[0].appendChild(newStyleElement)
+            },
+            /**
              * 更新vue的data
              * @param {*} _this vue对象
              * @param {*} dataName data的名称
