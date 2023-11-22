@@ -1,11 +1,10 @@
 //这里只需要写加载哪些js即可，直接闭包方式
 ;(function(window){
-    //获取IDM的加载队列最后一条信息
+    //获取IDM的加载队列最后一条信息，旧模式，后期不兼容，会移除
     var lastMdule;
     if(window.IDM&&window.IDM.module&&window.IDM.module.queue&&window.IDM.module.queue.moduleMain.length>0){
         lastMdule = window.IDM.module.queue.moduleMain[window.IDM.module.queue.moduleMain.length-1];
     }
-
     //代码包的内部代码路径，注意js的加载顺序，否则会找不到对象报错之类的问题
     var resource={
         js:{
@@ -20,11 +19,16 @@
         var head = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
         var js = head.getElementsByTagName("script"), jsPath = js[js.length - 1].src;
         console.log(jsPath);
-        if(lastMdule){
-            jsPath = IDM.url.getWebPath("@"+lastMdule.codeSrc,"",lastMdule.projectNo);
-        }
+        jsPath = document.currentScript.src||jsPath;
         
         return jsPath.substring(0, jsPath.lastIndexOf('/') + 1);
+    }(),
+    getMainPath = function(){
+        var head = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+        var js = head.getElementsByTagName("script"), jsPath = js[js.length - 1].src;
+        console.log(jsPath);
+        jsPath = document.currentScript.src||jsPath;
+        return jsPath;
     }(),
     //异常提示
     error = function(msg){
@@ -53,7 +57,7 @@
         node.charset = 'utf-8';
         node.src = url;
         node.setAttribute('objectID', "IDM-Module-"+url);
-        function onScriptLoad(e, url){
+        var onScriptLoad = function(e){
           var readyRegExp = navigator.platform === 'PLaySTATION 3' ? /^complete$/ : /^(complete|loaded)$/
           if (e.type === 'load' || (readyRegExp.test((e.currentTarget || e.srcElement).readyState))) {
             config.status[item] = true;
@@ -72,13 +76,9 @@
         if(!config.resources[item]){
             head.appendChild(node);
             if(node.attachEvent && !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) && !isOpera){
-                node.attachEvent('onreadystatechange', function(e){
-                    onScriptLoad(e, url,item,apps,that);
-                });
+                node.attachEvent('onreadystatechange',onScriptLoad);
             } else {
-                node.addEventListener('load', function(e){
-                    onScriptLoad(e, url,item,apps,that);
-                }, false);
+                node.addEventListener('load',onScriptLoad, false);
             }
         } else {
             (function poll() {
@@ -91,7 +91,7 @@
             : setTimeout(poll, 4);
             }());
         }
-        function onCallback(apps){
+        var onCallback = function(apps){
             apps.length > 1 ?
             loadjs(apps.slice(1), this.callback)
             : ( typeof this.callback === 'function' && this.callback.call(this) );
@@ -152,15 +152,18 @@
     Object.keys(resource.js).forEach(function(key){
         jsArray.push(key)
     });
-    loadjs(jsArray,function(){
-        //js组件加载完成
-        console.log("加载完成")
-        if(lastMdule&&lastMdule.callback){
-            lastMdule.callback.call(this,lastMdule)
-        }
-    });
-    resource.css&&resource.css.forEach(function(item){
-        var url = getPath + item + '.css';
-        loadcss(url,false);
-    })
+    if(IDM.module.asyncModuleLoadHandle&&IDM.env_develop_mode===false){
+        IDM.module.asyncModuleLoadHandle(getMainPath,resource);
+    }else{
+        loadjs(jsArray,function(){
+            //js组件加载完成，moduleLoadedHandle为框架2.2.0的异步模式
+            if(lastMdule&&lastMdule.callback){
+                lastMdule.callback.call(this,lastMdule)
+            }
+        });
+        resource.css&&resource.css.forEach(function(item){
+            var url = getPath + item + '.css';
+            loadcss(url,false);
+        })
+    }
 })(window);
