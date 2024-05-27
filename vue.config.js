@@ -1,9 +1,21 @@
 
 const path = require('path')
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const chalk = require('chalk')
 function resolve(dir) {
     return path.join(__dirname, dir)
+}
+
+const fileMode = process.env.FILE_MODE || 'dynamic'
+let indexName = 'index';
+if(fileMode== 'static') {
+  indexName = 'index2'
+}
+console.log(`${chalk.blue('Current file mode')}   ------ >  ${chalk.yellow(fileMode)}`)
+console.log(`${chalk.blue('Current file index')}  ------ >  ${chalk.yellow(indexName)}`)
+console.log(`${chalk.green('Start building .....')}`)
+const entryFileMap = {
+  dynamic: 'src/main.js',
+  static: 'src/mainStatic.js'
 }
 let assetsDir = "./static";
 let getAssetsDir = function(filename) {
@@ -40,6 +52,23 @@ let getGUID = function(len, radix) {
 
   return uuid.join("");
 }
+const splitChunks = {
+  chunks: 'async',
+  minSize: 2000000,
+  minChunks: 1,
+  maxAsyncRequests: 30,
+  maxInitialRequests: 30,
+  enforceSizeThreshold: 50000,
+  cacheGroups: {
+    vendors: {
+      name: 'chunk-vendors2',
+      test: /[\\/]node_modules[\\/]/,
+      enforce: true,
+      reuseExistingChunk: true,
+      priority: 0
+    }
+  },
+}
 const externals = {
   vue: 'Vue',
   'vue-router': 'VueRouter',
@@ -56,9 +85,9 @@ module.exports = {
         /[/\\]node_modules[/\\](.+?)?ant-design_colors(.*)[/\\]colors/,
     ],
     pages:{
-      index: {
+      [indexName]: {
         // page 的入口
-        entry: 'src/main.js',
+        entry: entryFileMap[fileMode],
         // 模板来源
         template: 'public/index.html',
         // 在 dist/index.html 的输出
@@ -120,12 +149,14 @@ module.exports = {
       //   .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     },
     configureWebpack: {
+      optimization: fileMode == 'dynamic' ?  undefined : { splitChunks },
       plugins: [
         // new MiniCssExtractPlugin({
         //   // 修改打包后css文件名
         //   filename: `${assetsDir}/css/[name].css`,
         //   chunkFilename: `${assetsDir}/css/[name].css`
-        // })
+        // }),
+        // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
       ],
       output: {
         // 输出重构  打包编译后的 文件名称
